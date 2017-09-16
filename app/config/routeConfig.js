@@ -18,11 +18,11 @@ module.exports = function($routeProvider) {
         .when('/clients', {
 
             templateUrl: 'view/clients.html',
-            controller: 'MainController',
+            controller: 'ClientsController',
             resolve: {
                 routeInfo: function() {
                     return {
-                        'routeName': 'Client list',
+                        'routeName': 'Lista de clientes',
                         'navClass': 'navbar-inverse'
                     };
                 }
