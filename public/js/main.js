@@ -4,6 +4,7 @@ module.exports = function($scope, $http, $filter) {
     $scope.name = $filter('uppercase')("My Pizza");
     $scope.day = new Date();
     $scope.total = 27.35;
+    $scope.msg = '';
     $scope.clients = [];
 
     var listClients = function(){
@@ -22,7 +23,8 @@ module.exports = function($scope, $http, $filter) {
     };
     var destroyClients = function(client){
         client.delete = true;
-        $http.post('post.php',client).then(function(response){
+
+        $http.post('http://localhost:8080', client).then(function(response){
             // console.log(response);
             // console.log(response.status);
         });
@@ -34,21 +36,25 @@ module.exports = function($scope, $http, $filter) {
         addClients(angular.copy(client));
         $scope.formClient.$setPristine();
         delete $scope.client;
+        $scope.msg = 'Registro adicionado com sucesso.';
 
     };
     $scope.edit = function(client){
         $scope.client = client;
         $scope.editing = true;
+        $scope.msg = '';
     };
     $scope.save = function() {
         addClients(angular.copy($scope.client));
         $scope.formClient.$setPristine();
         delete $scope.client;
         $scope.editing = false;
+        $scope.msg = 'Registro alterado com sucesso.';
     };
     $scope.destroy = function(client) {
         $scope.clients.splice($scope.clients.indexOf(client),1);
         destroyClients(client);
+        $scope.msg = 'Registro removido com sucesso.';
 
     };
     $scope.orderBy = function(col){
@@ -57,6 +63,24 @@ module.exports = function($scope, $http, $filter) {
     };
 };
 },{}],2:[function(require,module,exports){
+module.exports = function() {
+
+    return {
+        template: `
+            <div class="alert alert-success">
+                <p>{{ title }} <strong ng-transclude=""></strong></p>
+            </div>
+        `,
+        restrict: 'AE',
+        scope: {
+            title: '@'
+        },
+        transclude: true
+    }
+
+
+};
+},{}],3:[function(require,module,exports){
 module.exports = function() {
 
     return {
@@ -96,19 +120,21 @@ module.exports = function() {
     };
 
 }
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 require('angular');
 require('./locale/angular-locale_pt-br');
 
 
 var Maincontroller = require('./controllers/MainController');
 var maskTel = require('./directives/maskTel');
+var alertMsg = require('./directives/alertMsg');
 
 
 angular.module('app', []);
 angular.module('app').directive('maskTel', [maskTel]);
+angular.module('app').directive('alertMsg', [alertMsg]);
 angular.module('app').controller('MainController', ['$scope', '$http', '$filter', Maincontroller]);
-},{"./controllers/MainController":1,"./directives/maskTel":2,"./locale/angular-locale_pt-br":4,"angular":6}],4:[function(require,module,exports){
+},{"./controllers/MainController":1,"./directives/alertMsg":2,"./directives/maskTel":3,"./locale/angular-locale_pt-br":5,"angular":7}],5:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -234,7 +260,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.6
  * (c) 2010-2017 Google, Inc. http://angularjs.org
@@ -34124,8 +34150,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":5}]},{},[3])
+},{"./angular":6}]},{},[4])

@@ -7,6 +7,7 @@ header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 
 $post = json_decode(file_get_contents("php://input"));
 
+
 if($post){
 
     if(isset($post->delete)){
