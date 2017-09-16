@@ -1,10 +1,13 @@
-module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue) {
+module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue, bonusGenerator) {
 
     $scope.name = $filter('uppercase')(configValue.appName);
     $scope.day = new Date();
     $scope.total = 27.35;
     $scope.msg = '';
     $scope.clients = [];
+
+
+    $scope.bonus = 'Cod. bonus: ' + bonusGenerator.generator();
 
     var listClients = function(){
         clientApiService.getClients().then(function(response) {

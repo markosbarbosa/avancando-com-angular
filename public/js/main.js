@@ -1,16 +1,25 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = function(bonusGeneratorProvider) {
+
+
+    console.log(bonusGeneratorProvider.getLength());
+}
+},{}],2:[function(require,module,exports){
 module.exports =  {
     appName: 'My Pizza',
     apiUrl: 'http://localhost:8080'
 };
-},{}],2:[function(require,module,exports){
-module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue) {
+},{}],3:[function(require,module,exports){
+module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue, bonusGenerator) {
 
     $scope.name = $filter('uppercase')(configValue.appName);
     $scope.day = new Date();
     $scope.total = 27.35;
     $scope.msg = '';
     $scope.clients = [];
+
+
+    $scope.bonus = 'Cod. bonus: ' + bonusGenerator.generator();
 
     var listClients = function(){
         clientApiService.getClients().then(function(response) {
@@ -67,7 +76,7 @@ module.exports = function($scope, $http, $filter, clientApiFactory, clientApiSer
         $scope.reverse = !$scope.reverse;
     };
 };
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = function() {
 
     return {
@@ -85,7 +94,7 @@ module.exports = function() {
 
 
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = function() {
 
     return {
@@ -132,12 +141,15 @@ module.exports = function() {
     };
 
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 require('angular');
 require('./locale/angular-locale_pt-br');
 
 
 var configValue = require('./config/configValue');
+var configBonusProvider = require('./config/configBonusProvider');
+var bonusGenerator = require('./services/bonusGenerator');
+
 var clientApiFactory = require('./services/clientApiFactory');
 var clientApiService = require('./services/clientApiService');
 
@@ -148,14 +160,16 @@ var alertMsg = require('./directives/alertMsg');
 
 angular.module('app', []);
 angular.module('app').value('configValue', configValue);
+angular.module('app').provider('bonusGenerator', [bonusGenerator]);
+angular.module('app').config(['bonusGeneratorProvider', configBonusProvider]);
 angular.module('app').factory('clientApiFactory', ['$http', 'configValue', clientApiFactory]);
 angular.module('app').service('clientApiService', ['$http', 'configValue', clientApiService]);
 angular.module('app').directive('maskTel', [maskTel]);
 angular.module('app').directive('alertMsg', [alertMsg]);
 angular.module('app').controller('MainController', [
-    '$scope', '$http', '$filter', 'clientApiFactory', 'clientApiService', 'configValue', Maincontroller
+    '$scope', '$http', '$filter', 'clientApiFactory', 'clientApiService', 'configValue', 'bonusGenerator', Maincontroller
 ]);
-},{"./config/configValue":1,"./controllers/MainController":2,"./directives/alertMsg":3,"./directives/maskTel":4,"./locale/angular-locale_pt-br":6,"./services/clientApiFactory":7,"./services/clientApiService":8,"angular":10}],6:[function(require,module,exports){
+},{"./config/configBonusProvider":1,"./config/configValue":2,"./controllers/MainController":3,"./directives/alertMsg":4,"./directives/maskTel":5,"./locale/angular-locale_pt-br":7,"./services/bonusGenerator":8,"./services/clientApiFactory":9,"./services/clientApiService":10,"angular":12}],7:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -281,7 +295,33 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+module.exports = function bonusGeneratorProvider() {
+
+    var _length = 5;
+
+    this.getLength = function() {
+        return _length;
+    }
+
+    this.$get = function() {
+        return {
+            generator: function() {
+
+                var bonus = '';
+
+                for(var i = _length; i > 0; i--) {
+                    bonus += Math.floor(Math.random() * 10);
+                }
+
+                return bonus;
+
+            }
+        }
+    }
+
+};
+},{}],9:[function(require,module,exports){
 module.exports = function($http, configValue) {
 
     var _getClients = function () {
@@ -297,7 +337,7 @@ module.exports = function($http, configValue) {
         postClients: _postClients
     }
 };
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function($http, configValue) {
 
     this.getClients = function () {
@@ -309,7 +349,7 @@ module.exports = function($http, configValue) {
     };
 
 };
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.6
  * (c) 2010-2017 Google, Inc. http://angularjs.org
@@ -34199,8 +34239,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":9}]},{},[5])
+},{"./angular":11}]},{},[6])
