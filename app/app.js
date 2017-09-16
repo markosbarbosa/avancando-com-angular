@@ -4,7 +4,7 @@ require('./locale/angular-locale_pt-br');
 
 var configValue = require('./config/configValue');
 var configBonusProvider = require('./config/configBonusProvider');
-var bonusGenerator = require('./services/bonusGenerator');
+var bonusGenerator = require('./services/bonusGeneratorProvider');
 
 var clientApiFactory = require('./services/clientApiFactory');
 var clientApiService = require('./services/clientApiService');

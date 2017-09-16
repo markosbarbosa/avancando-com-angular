@@ -12,7 +12,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('serve', function() {
-    var serve = server.static('./public', 8005);
+    var serve = server.static('./public', 8007);
     serve.start();
     gulp.watch('public/js/**/*.js', function (file) {
         server.notify.apply(serve, [file]);

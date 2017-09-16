@@ -1,8 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = function(bonusGeneratorProvider) {
 
+    // console.log(bonusGeneratorProvider.getLength());
 
-    console.log(bonusGeneratorProvider.getLength());
+    bonusGeneratorProvider.setLength(5);
+
 }
 },{}],2:[function(require,module,exports){
 module.exports =  {
@@ -148,7 +150,7 @@ require('./locale/angular-locale_pt-br');
 
 var configValue = require('./config/configValue');
 var configBonusProvider = require('./config/configBonusProvider');
-var bonusGenerator = require('./services/bonusGenerator');
+var bonusGenerator = require('./services/bonusGeneratorProvider');
 
 var clientApiFactory = require('./services/clientApiFactory');
 var clientApiService = require('./services/clientApiService');
@@ -169,7 +171,7 @@ angular.module('app').directive('alertMsg', [alertMsg]);
 angular.module('app').controller('MainController', [
     '$scope', '$http', '$filter', 'clientApiFactory', 'clientApiService', 'configValue', 'bonusGenerator', Maincontroller
 ]);
-},{"./config/configBonusProvider":1,"./config/configValue":2,"./controllers/MainController":3,"./directives/alertMsg":4,"./directives/maskTel":5,"./locale/angular-locale_pt-br":7,"./services/bonusGenerator":8,"./services/clientApiFactory":9,"./services/clientApiService":10,"angular":12}],7:[function(require,module,exports){
+},{"./config/configBonusProvider":1,"./config/configValue":2,"./controllers/MainController":3,"./directives/alertMsg":4,"./directives/maskTel":5,"./locale/angular-locale_pt-br":7,"./services/bonusGeneratorProvider":8,"./services/clientApiFactory":9,"./services/clientApiService":10,"angular":12}],7:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -296,13 +298,19 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
     });
 }]);
 },{}],8:[function(require,module,exports){
-module.exports = function bonusGeneratorProvider() {
+module.exports = function bonusGeneratorProviderTeste() {
 
     var _length = 5;
 
     this.getLength = function() {
         return _length;
     }
+
+
+    this.setLength = function(length) {
+        _length = length;
+    }
+
 
     this.$get = function() {
         return {
