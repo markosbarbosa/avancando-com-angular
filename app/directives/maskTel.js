@@ -12,13 +12,20 @@ module.exports = function() {
                 // console.log(ctrl.$viewValue);
 
                 var formatTel = function (value) {
-                    value = value.replace(/[^0-9]/g, '').substring(0, 9);
 
-                    if(value.length > 4 && value.length <= 8) {
-                        value = value.substring(0, 4) + '-' + value.substring(4, 8);
-                    } else if(value.length > 4 && value.length <= 9) {
-                        value = value.substring(0, 5) + '-' + value.substring(5, 9);
+                    if(value != undefined) {
+                        value = value.replace(/[^0-9]/g, '');
+                        value = value.substring(0, 9);
+
+                        if(value.length > 4 && value.length <= 8) {
+                            value = value.substring(0, 4) + '-' + value.substring(4, 8);
+                        } else if(value.length > 4 && value.length <= 9) {
+                            value = value.substring(0, 5) + '-' + value.substring(5, 9);
+                        }
+
                     }
+
+
 
                     return value;
 
@@ -29,10 +36,10 @@ module.exports = function() {
 
             });
 
-            ctrl.$parsers.push(function(value) {
-                value = value.replace(/[^0-9]/g, '');
-                return value;
-            });
+            // ctrl.$parsers.push(function(value) {
+            //     value = value.replace(/[^0-9]/g, '');
+            //     return value;
+            // });
         }
     };
 

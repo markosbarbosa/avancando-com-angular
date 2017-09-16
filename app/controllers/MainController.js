@@ -1,4 +1,4 @@
-module.exports = function($scope, $http, $filter, clientApiService) {
+module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService) {
 
     $scope.name = $filter('uppercase')("My Pizza");
     $scope.day = new Date();

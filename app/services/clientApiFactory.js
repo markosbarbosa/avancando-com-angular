@@ -1,11 +1,15 @@
 module.exports = function($http) {
 
-    this.getClients = function () {
+    var _getClients = function () {
         return $http.get('http://localhost:8080');
     };
 
-    this.postClients = function (client) {
+    var _postClients = function (client) {
         return $http.post('http://localhost:8080', client);
     };
 
+    return {
+        getClients: _getClients,
+        postClients: _postClients
+    }
 };
