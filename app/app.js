@@ -2,6 +2,7 @@ require('angular');
 require('./locale/angular-locale_pt-br');
 
 
+var configConstant = require('./config/configConstant');
 var configValue = require('./config/configValue');
 var configBonusProvider = require('./config/configBonusProvider');
 var bonusGenerator = require('./services/bonusGeneratorProvider');
@@ -15,9 +16,10 @@ var alertMsg = require('./directives/alertMsg');
 
 
 angular.module('app', []);
+angular.module('app').constant('configConstant', configConstant);
 angular.module('app').value('configValue', configValue);
 angular.module('app').provider('bonusGenerator', [bonusGenerator]);
-angular.module('app').config(['bonusGeneratorProvider', configBonusProvider]);
+angular.module('app').config(['bonusGeneratorProvider', 'configConstant', configBonusProvider]);
 angular.module('app').factory('clientApiFactory', ['$http', 'configValue', clientApiFactory]);
 angular.module('app').service('clientApiService', ['$http', 'configValue', clientApiService]);
 angular.module('app').directive('maskTel', [maskTel]);
