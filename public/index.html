@@ -25,6 +25,9 @@
 
     <section class="container">
 
+        <h3>Hello, today is {{ day | date }}</h3>
+        <h3>Total: {{ total | currency }}</h3>
+
         <div class="row">
             <div class="form-inline text-center">
                 <div class="form-group pull-left">
@@ -63,9 +66,9 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="client in clients | filter:search | orderBy:order:reverse">
-                    <td>{{ client.name }}</td>
+                    <td>{{ client.name | uppercase }}</td>
                     <td>{{ client.tel }}</td>
-                    <td>{{ client.address }}</td>
+                    <td>{{ client.address | lowercase }}</td>
                     <td>
                         <button ng-click="edit(client);" class="btn btn-default">Edit</button>
                         <button ng-click="destroy(client);" class="btn btn-danger">Destroy</button>

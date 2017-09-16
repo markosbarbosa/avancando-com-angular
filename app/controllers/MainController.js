@@ -1,6 +1,8 @@
-module.exports = function($scope, $http) {
+module.exports = function($scope, $http, $filter) {
 
-    $scope.name = "My Pizza";
+    $scope.name = $filter('uppercase')("My Pizza");
+    $scope.day = new Date();
+    $scope.total = 27.35;
     $scope.clients = [];
 
     var listClients = function(){
