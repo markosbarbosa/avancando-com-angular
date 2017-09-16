@@ -3,7 +3,7 @@ module.exports = function(bonusGeneratorProvider, configConstant) {
 
     // console.log(bonusGeneratorProvider.getLength());
 
-    console.log(configConstant);
+    // console.log(configConstant);
 
     bonusGeneratorProvider.setLength(5);
 
@@ -17,29 +17,51 @@ module.exports =  {
 module.exports=require(2)
 },{}],4:[function(require,module,exports){
 module.exports = function($routeProvider) {
-    
-    $routeProvider.when('/clients', {
 
-        templateUrl: 'view/clients.html',
-        controller: 'MainController',
-        resolve: {
-            routeName: function() {
-                return 'Client list';
+    $routeProvider
+        .when('/home', {
+
+            templateUrl: 'view/home.html',
+            controller: 'MainController',
+            resolve: {
+                routeInfo: function() {
+                    return {
+                        'routeName': 'HOME',
+                        'navClass': 'navbar-default'
+                    };
+                }
             }
-        }
 
-    });
-    
+        })
+        .when('/clients', {
+
+            templateUrl: 'view/clients.html',
+            controller: 'MainController',
+            resolve: {
+                routeInfo: function() {
+                    return {
+                        'routeName': 'Client list',
+                        'navClass': 'navbar-inverse'
+                    };
+                }
+            }
+
+        })
+        .otherwise({
+            redirectTo: '/home'
+        });
+
 }
 },{}],5:[function(require,module,exports){
-module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue, bonusGenerator, routeName) {
+module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue, bonusGenerator, routeInfo) {
 
     $scope.name = $filter('uppercase')(configValue.appName);
     $scope.day = new Date();
     $scope.total = 27.35;
     $scope.msg = '';
     $scope.clients = [];
-    $scope.page = routeName;
+    $scope.page = routeInfo.routeName;
+    $scope.navClass = routeInfo.navClass;
 
 
     $scope.bonus = 'Cod. bonus: ' + bonusGenerator.generator();
@@ -199,7 +221,7 @@ angular.module('app').directive('maskTel', [maskTel]);
 angular.module('app').directive('alertMsg', [alertMsg]);
 angular.module('app').controller('MainController', [
     '$scope', '$http', '$filter', 'clientApiFactory',
-    'clientApiService', 'configValue', 'bonusGenerator', 'routeName', Maincontroller
+    'clientApiService', 'configValue', 'bonusGenerator', 'routeInfo', Maincontroller
 ]);
 },{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/MainController":5,"./directives/alertMsg":6,"./directives/maskTel":7,"./locale/angular-locale_pt-br":9,"./services/bonusGeneratorProvider":10,"./services/clientApiFactory":11,"./services/clientApiService":12,"angular":16,"angular-route":14}],9:[function(require,module,exports){
 'use strict';

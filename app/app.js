@@ -32,5 +32,5 @@ angular.module('app').directive('maskTel', [maskTel]);
 angular.module('app').directive('alertMsg', [alertMsg]);
 angular.module('app').controller('MainController', [
     '$scope', '$http', '$filter', 'clientApiFactory',
-    'clientApiService', 'configValue', 'bonusGenerator', 'routeName', Maincontroller
+    'clientApiService', 'configValue', 'bonusGenerator', 'routeInfo', Maincontroller
 ]);

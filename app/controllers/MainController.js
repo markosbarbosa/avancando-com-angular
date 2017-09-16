@@ -1,11 +1,12 @@
-module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue, bonusGenerator, routeName) {
+module.exports = function($scope, $http, $filter, clientApiFactory, clientApiService, configValue, bonusGenerator, routeInfo) {
 
     $scope.name = $filter('uppercase')(configValue.appName);
     $scope.day = new Date();
     $scope.total = 27.35;
     $scope.msg = '';
     $scope.clients = [];
-    $scope.page = routeName;
+    $scope.page = routeInfo.routeName;
+    $scope.navClass = routeInfo.navClass;
 
 
     $scope.bonus = 'Cod. bonus: ' + bonusGenerator.generator();
