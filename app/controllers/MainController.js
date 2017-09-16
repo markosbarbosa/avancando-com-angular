@@ -1,4 +1,4 @@
-module.exports = function($scope, $http, $filter, configValue, routeInfo) {
+module.exports = function($scope, $filter, configValue, routeInfo) {
 
     $scope.name = $filter('uppercase')(configValue.appName);
     $scope.day = new Date();

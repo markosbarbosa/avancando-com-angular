@@ -29,6 +29,20 @@ module.exports = function($routeProvider) {
             }
 
         })
+        .when('/client/:id', {
+
+            templateUrl: 'view/client.html',
+            controller: 'ClientController',
+            resolve: {
+                routeInfo: function() {
+                    return {
+                        'routeName': 'Cliente',
+                        'navClass': 'navbar-inverse'
+                    };
+                }
+            }
+
+        })
         .otherwise({
             redirectTo: '/home'
         });

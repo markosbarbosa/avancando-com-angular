@@ -14,6 +14,7 @@ var clientApiService = require('./services/clientApiService');
 
 var Maincontroller = require('./controllers/MainController');
 var ClientsController = require('./controllers/ClientsController');
+var ClientController = require('./controllers/ClientController');
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
@@ -32,12 +33,16 @@ angular.module('app').service('clientApiService', ['$http', 'configValue', clien
 angular.module('app').directive('maskTel', [maskTel]);
 angular.module('app').directive('alertMsg', [alertMsg]);
 
+
 angular.module('app').controller('MainController', [
-    '$scope', '$http', '$filter',
-    'configValue', 'routeInfo', Maincontroller
+    '$scope', '$filter', 'configValue', 'routeInfo', Maincontroller
 ]);
 
 angular.module('app').controller('ClientsController', [
     '$scope', '$http', '$filter', 'clientApiFactory',
     'clientApiService', 'configValue', 'bonusGenerator', 'routeInfo', ClientsController
+]);
+
+angular.module('app').controller('ClientController', [
+    '$scope', '$filter', 'clientApiFactory', 'configValue', 'routeInfo', '$routeParams', ClientController
 ]);
